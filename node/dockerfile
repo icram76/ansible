@@ -1,0 +1,24 @@
+# Ubuntu alapú image használata
+FROM ubuntu:latest
+
+# Környezeti változók beállítása a non-interaktív telepítéshez
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Rendszer frissítése, SSH szerver, Python és szükséges csomagok telepítése
+RUN apt-get update && \
+    apt-get install -y openssh-server python3 python3-pip && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# SSH szerver beállításai:
+# Gyökér (root) felhasználó engedélyezése SSH-n keresztül (tanulási célokra)
+RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
+# A jelszó nélküli belépés engedélyezése, ami az SSH kulcsos autentikáció alapja
+RUN echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
+
+# SSH kulcsok helyének és jogosultságainak beállítása
+RUN mkdir -p /root/.ssh
+RUN chmod 700 /root/.ssh
+
+# Az SSH szolgáltatás indítása a konténer futtatásakor
+CMD ["/usr/sbin/sshd", "-D"]

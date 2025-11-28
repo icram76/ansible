@@ -1,0 +1,28 @@
+# Ubuntu alapú image használata
+FROM ubuntu:latest
+
+# Környezeti változók beállítása a non-interaktív telepítéshez
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Rendszer frissítése, Ansible, Python és SSH kliens telepítése
+RUN apt-get update && \
+    apt-get install -y ansible openssh-client python3 python3-pip iputils-ping && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# SSH kulcspár generálása (jelszó nélkül a könnyebb automatizálás érdekében)
+RUN ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa && \
+    cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys && \
+    chmod 600 ~/.ssh/authorized_keys
+
+# Az SSH host key checking letiltása a kényelmesebb tanulás érdekében
+# (Ez NEM ajánlott éles környezetben!)
+RUN echo "Host *" > /etc/ansible/hosts_config && \
+    echo "  StrictHostKeyChecking no" >> /etc/ansible/hosts_config && \
+    echo "  UserKnownHostsFile /dev/null" >> /etc/ansible/hosts_config
+
+# Ansible konfigurációs fájl beállítása, hogy használja az új host configot
+ENV ANSIBLE_SSH_ARGS="-F /etc/ansible/hosts_config"
+
+# Belépési pont beállítása, hogy a konténer fusson a háttérben
+CMD ["tail", "-f", "/dev/null"]
