@@ -1,28 +1,28 @@
-# Ubuntu alap˙ image haszn·lata
+# Ubuntu alap√∫ image haszn√°lata
 FROM ubuntu:latest
 
-# Kˆrnyezeti v·ltozÛk be·llÌt·sa a non-interaktÌv telepÌtÈshez
+# K√∂rnyezeti v√°ltoz√≥k be√°ll√≠t√°sa a non-interakt√≠v telep√≠t√©shez
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Rendszer frissÌtÈse, Ansible, Python Ès SSH kliens telepÌtÈse
+# Rendszer friss√≠t√©se, Ansible, Python √©s SSH kliens telep√≠t√©se
 RUN apt-get update && \
     apt-get install -y ansible openssh-client python3 python3-pip iputils-ping && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# SSH kulcsp·r gener·l·sa (jelszÛ nÈlk¸l a kˆnnyebb automatiz·l·s ÈrdekÈben)
+# SSH kulcsp√°r gener√°l√°sa (jelsz√≥ n√©lk√ºl a k√∂nnyebb automatiz√°l√°s √©rdek√©ben)
 RUN ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa && \
     cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys && \
     chmod 600 ~/.ssh/authorized_keys
 
-# Az SSH host key checking letilt·sa a kÈnyelmesebb tanul·s ÈrdekÈben
-# (Ez NEM aj·nlott Èles kˆrnyezetben!)
+# Az SSH host key checking letilt√°sa a k√©nyelmesebb tanul√°s √©rdek√©ben
+# (Ez NEM aj√°nlott √©les k√∂rnyezetben!)
 RUN echo "Host *" > /etc/ansible/hosts_config && \
     echo "  StrictHostKeyChecking no" >> /etc/ansible/hosts_config && \
     echo "  UserKnownHostsFile /dev/null" >> /etc/ansible/hosts_config
 
-# Ansible konfigur·ciÛs f·jl be·llÌt·sa, hogy haszn·lja az ˙j host configot
+# Ansible konfigur√°ci√≥s f√°jl be√°ll√≠t√°sa, hogy haszn√°lja az √∫j host configot
 ENV ANSIBLE_SSH_ARGS="-F /etc/ansible/hosts_config"
 
-# BelÈpÈsi pont be·llÌt·sa, hogy a kontÈner fusson a h·ttÈrben
+# Bel√©p√©si pont be√°ll√≠t√°sa, hogy a kont√©ner fusson a h√°tt√©rben
 CMD ["tail", "-f", "/dev/null"]
