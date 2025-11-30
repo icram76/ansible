@@ -1,22 +1,22 @@
-# Ubuntu alapú image használata
+# Ubuntu alapï¿½ image hasznï¿½lata
 FROM ubuntu:latest
 
-# Környezeti változók beállítása a non-interaktív telepítéshez
+# Kï¿½rnyezeti vï¿½ltozï¿½k beï¿½llï¿½tï¿½sa a non-interaktï¿½v telepï¿½tï¿½shez
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Rendszer frissítése, SSH szerver, Python és szükséges csomagok telepítése
+# Rendszer frissï¿½tï¿½se, SSH szerver, Python ï¿½s szï¿½ksï¿½ges csomagok telepï¿½tï¿½se
 RUN apt-get update && \
     apt-get install -y openssh-server python3 python3-pip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# SSH szerver beállításai:
-# Gyökér (root) felhasználó engedélyezése SSH-n keresztül (tanulási célokra)
+# SSH szerver beï¿½llï¿½tï¿½sai:
+# Gyï¿½kï¿½r (root) felhasznï¿½lï¿½ engedï¿½lyezï¿½se SSH-n keresztï¿½l (tanulï¿½si cï¿½lokra)
 RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
-# A jelszó nélküli belépés engedélyezése, ami az SSH kulcsos autentikáció alapja
+# A jelszï¿½ nï¿½lkï¿½li belï¿½pï¿½s engedï¿½lyezï¿½se, ami az SSH kulcsos autentikï¿½ciï¿½ alapja
 RUN echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
 
-# SSH kulcsok helyének és jogosultságainak beállítása
+# SSH kulcsok helyï¿½nek ï¿½s jogosultsï¿½gainak beï¿½llï¿½tï¿½sa
 RUN mkdir -p /root/.ssh
 RUN chmod 700 /root/.ssh
 
@@ -24,5 +24,5 @@ RUN mkdir -p /run/sshd
 
 EXPOSE 22
 
-# Az SSH szolgáltatás indítása a konténer futtatásakor
+# Az SSH szolgÃ¡tatÃ¡s indÃ­tÃ¡sa a kontÃ©ner futtatÃ¡sakor
 CMD ["/usr/sbin/sshd", "-D"]
