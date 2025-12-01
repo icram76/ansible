@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Rendszer frissítése, Ansible, Python és SSH kliens telepítése
 RUN apt-get update && \
-    apt-get install -y ansible openssh-client python3 python3-pip iputils-ping && \
+    apt-get install -y ansible openssh-client python3 python3-pip iputils-ping nano && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
