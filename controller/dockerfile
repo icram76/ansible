@@ -17,7 +17,8 @@ RUN ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa && \
 
 # Az SSH host key checking letiltása a kényelmesebb tanulás érdekében
 # (Ez NEM ajánlott éles környezetben!)
-RUN echo "Host *" > /etc/ansible/hosts_config && \
+RUN mkdir -p /etc/ansible && \
+	echo "Host *" > /etc/ansible/hosts_config && \
     echo "  StrictHostKeyChecking no" >> /etc/ansible/hosts_config && \
     echo "  UserKnownHostsFile /dev/null" >> /etc/ansible/hosts_config
 
