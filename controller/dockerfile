@@ -20,9 +20,9 @@ RUN mkdir -p /etc/ansible && \
 # Ansible konfigurációs fájl beállítása, hogy használja az új host configot
 ENV ANSIBLE_SSH_ARGS="-F /etc/ansible/hosts_config"
 
-COPY ansible.cfg /etc/ansible/ansible.cfg
+COPY controller/ansible.cfg /etc/ansible/ansible.cfg
 
-COPY hosts /etc/ansible/hosts
+COPY controller/hosts /etc/ansible/hosts
 
 #ansadmin user létrehozása
 RUN useradd -m -s /bin/bash ansadmin && \
