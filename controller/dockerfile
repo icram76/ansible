@@ -30,8 +30,8 @@ RUN useradd -m -s /bin/bash ansadmin && \
 
 #SSH kulcsok másolása az ansadmin felhasználóhoz
 RUN mkdir -p /home/ansadmin/.ssh
-COPY ssh/ans_key.pub /home/ansadmin/.ssh/authorized_keys
-COPY ssh/ans_key /home/ansadmin/.ssh/id_rsa 
+COPY ans_key.pub /home/ansadmin/.ssh/authorized_keys
+COPY ans_key /home/ansadmin/.ssh/id_rsa 
 RUN chmod 700 /home/ansadmin/.ssh && \
     chmod 600 /home/ansadmin/.ssh/authorized_keys && \
     chmod 600 /home/ansadmin/.ssh/id_rsa && \
