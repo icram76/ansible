@@ -10,11 +10,6 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# SSH kulcspár generálása (jelszó nélkül a könnyebb automatizálás érdekében)
-RUN ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa && \
-    cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys && \
-    chmod 600 ~/.ssh/authorized_keys
-
 # Az SSH host key checking letiltása a kényelmesebb tanulás érdekében
 # (Ez NEM ajánlott éles környezetben!)
 RUN mkdir -p /etc/ansible && \
@@ -32,6 +27,15 @@ COPY hosts /etc/ansible/hosts
 #ansadmin user létrehozása
 RUN useradd -m -s /bin/bash ansadmin && \
     echo "ansadmin ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+#SSH kulcsok másolása az ansadmin felhasználóhoz
+RUN mkdir -p /home/ansadmin/.ssh
+COPY ssh/ans_key.pub /home/ansadmin/.ssh/authorized_keys
+COPY ssh/ans_key /home/ansadmin/.ssh/id_rsa 
+RUN chmod 700 /home/ansadmin/.ssh && \
+    chmod 600 /home/ansadmin/.ssh/authorized_keys && \
+    chmod 600 /home/ansadmin/.ssh/id_rsa && \
+    chown -R ansadmin:ansadmin /home/ansadmin/.ssh
 
 # Belépési pont beállítása, hogy a konténer fusson a háttérben
 CMD ["tail", "-f", "/dev/null"]
