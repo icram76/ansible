@@ -25,5 +25,9 @@ RUN mkdir -p /etc/ansible && \
 # Ansible konfigurációs fájl beállítása, hogy használja az új host configot
 ENV ANSIBLE_SSH_ARGS="-F /etc/ansible/hosts_config"
 
+COPY ansible.cfg /etc/ansible/ansible.cfg
+
+copy hosts /etc/ansible/hosts
+
 # Belépési pont beállítása, hogy a konténer fusson a háttérben
 CMD ["tail", "-f", "/dev/null"]
