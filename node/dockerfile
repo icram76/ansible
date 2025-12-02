@@ -1,22 +1,22 @@
-# Ubuntu alap� image haszn�lata
+# Ubuntu image használata
 FROM ubuntu:latest
 
-# K�rnyezeti v�ltoz�k be�ll�t�sa a non-interakt�v telep�t�shez
+# Környezeti változók beállítása a non-interaktív telepítéshez
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Rendszer friss�t�se, SSH szerver, Python �s sz�ks�ges csomagok telep�t�se
+# Rendszer frissítése, SSH szerver, Python és szükséges csomagok telepítése
 RUN apt-get update && \
     apt-get install -y openssh-server python3 python3-pip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# SSH szerver be�ll�t�sai:
-# Gy�k�r (root) felhaszn�l� enged�lyez�se SSH-n kereszt�l (tanul�si c�lokra)
+# SSH szerver beállításai:
+# Gyökér (root) felhasználó engedélyezése SSH-n keresztül (tanulási célokra)
 RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
-# A jelsz� n�lk�li bel�p�s enged�lyez�se, ami az SSH kulcsos autentik�ci� alapja
+# A jelszó nélküli belépés engedélyezése, ami az SSH kulcsos autentikáció alapja
 RUN echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
 
-# SSH kulcsok hely�nek �s jogosults�gainak be�ll�t�sa
+# SSH kulcsok helyének és jogosultságainak beállítása
 RUN mkdir -p /root/.ssh
 RUN chmod 700 /root/.ssh
 

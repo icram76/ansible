@@ -29,5 +29,9 @@ COPY ansible.cfg /etc/ansible/ansible.cfg
 
 COPY hosts /etc/ansible/hosts
 
+#ansadmin user létrehozása
+RUN useradd -m -s /bin/bash ansadmin && \
+    echo "ansadmin ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
 # Belépési pont beállítása, hogy a konténer fusson a háttérben
 CMD ["tail", "-f", "/dev/null"]
