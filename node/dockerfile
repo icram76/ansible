@@ -26,7 +26,7 @@ RUN mkdir -p /run/sshd
 RUN useradd -m -s /bin/bash ansadmin && \
     echo "ansadmin ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
-COPY ans_key.pub /ansadmin/.ssh/authorized_keys
+COPY ans_key.pub /home/ansadmin/.ssh/authorized_keys
 
 EXPOSE 22
 
