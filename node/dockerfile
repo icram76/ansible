@@ -22,6 +22,10 @@ RUN chmod 700 /root/.ssh
 
 RUN mkdir -p /run/sshd
 
+#ansadmin user létrehozása
+RUN useradd -m -s /bin/bash ansadmin && \
+    echo "ansadmin ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
 EXPOSE 22
 
 # Az SSH szolgátatás indítása a konténer futtatásakor
