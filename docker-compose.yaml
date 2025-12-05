@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  ans_ctr:
+    image: ans
+    container_name: ans_ctr
+    user: ansadmin
+    volumes:
+      - type: bind
+        source: /mnt/shared/play.yaml
+        target: /home/ansadmin/play.yaml
+        bind:
+          propagation: shared
+    stdin_open: true
+    tty: true
+    command: bash
+    networks:
+      - ansible_network
+    # A --rm funkcionalitást a compose up parancsnál adjuk meg: docker-compose up --rm ans_ctr
+
+  node_1:
+    image: node:latest # Feltételezve, hogy a "node" image-et szeretnéd használni a legújabb verzióban
+    container_name: node_1
+    restart: unless-stopped # Gyakori beállítás háttérben futó szolgáltatásokhoz
+    networks:
+      - ansible_network
+    # Nincs szükség command: bash-ra, mivel a node image alapértelmezett parancsa futni fog
+
+# A hálózat definíciója és létrehozása
+networks:
+  ansible_network:
+    driver: bridge
+    # Itt a Docker hozza létre a hálózatot, ha még nem létezik.
