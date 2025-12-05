@@ -32,8 +32,9 @@ RUN chmod 700 /home/ansadmin/.ssh && \
 
 # Ansible konfigurációs fájl beállítása, hogy használja az új host configot
 COPY controller/ansible.cfg /home/ansadmin/ansible/ansible.cfg
+COPY controller/hosts /home/ansadmin/ansible/hosts
 
-COPY controller/hosts /home/ansadmin/hosts
+RUN chown -R ansadmin:ansadmin /home/ansadmin/ansible
 
 # Belépési pont beállítása, hogy a konténer fusson a háttérben
 CMD ["tail", "-f", "/dev/null"]
