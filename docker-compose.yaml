@@ -1,14 +1,13 @@
-version: '3.8'
 
 services:
   ans_ctr:
-    image: ans
+    image: ctr:latest
     container_name: ans_ctr
     user: ansadmin
     volumes:
       - type: bind
-        source: /mnt/shared/play.yaml
-        target: /home/ansadmin/play.yaml
+        source: ./controller/playbook.yml
+        target: /home/ansadmin/ansible/playbook.yml
         bind:
           propagation: shared
     stdin_open: true

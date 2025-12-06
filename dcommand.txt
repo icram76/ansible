@@ -1,0 +1,4 @@
+docker run --name node_1 --network ansible_network -d node
+
+docker run --name ctr --network ansible_network -d ctr
+

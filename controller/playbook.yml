@@ -1,0 +1,17 @@
+---
+- name: Example Playbook
+  hosts: all
+  gather_facts: yes
+  become: no
+  vars:
+    os_family: "{{ ansible_facts['os_family'] }}"
+  tasks: 
+    - name: Example task
+      debug:
+        msg: 
+          - inventory_hostname
+          - "ip cím : {{ ansible_facts['all_ipv4_addresses']  }}"
+          - "os family: {{ os_family }}"
+    # - name: Ansible facts
+      #debug:
+      #  msg: "{{ ansible_facts }}"
